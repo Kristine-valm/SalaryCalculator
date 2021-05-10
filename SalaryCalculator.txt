@@ -1,0 +1,112 @@
+﻿using System;
+
+namespace SalaryCalculator
+{
+    public class Program
+    {
+
+        public static void Main(string[] args)
+        {
+
+            double fundedPension = 0;
+            double UnemploymentInsurance = 0;
+
+            Console.WriteLine("Please enter your gross salary");
+            double GrossSalary = double.Parse(Console.ReadLine());
+            Console.WriteLine("Have you joined a funded pension? Yes/No");
+            string FundedPensionAnswer = Console.ReadLine();
+            Console.WriteLine("Do you have to pay unemployment insurance contributions? Yes/No");
+            string UnemploymentInsuranceAnswer = Console.ReadLine();
+
+            fundedPension = FundedPensionCalculation(GrossSalary, FundedPensionAnswer);
+            UnemploymentInsurance = UnemploymentInsuranceCalculation(GrossSalary, UnemploymentInsuranceAnswer);
+
+            if (GrossSalary <= 1200)
+            {
+                IncomeUnder1200(GrossSalary, fundedPension, UnemploymentInsurance);
+            }
+
+            else if (GrossSalary >= 2100)
+            {
+                IncomeOver2100(GrossSalary, fundedPension, UnemploymentInsurance);
+            }
+            else
+            {
+                IncomeBetween1200And2100(GrossSalary, fundedPension, UnemploymentInsurance);
+            }
+        }
+        public static void IncomeUnder1200(double salary, double FundedPension, double UnemploymentInsurance)
+        {
+            double fundedPension = FundedPension;
+            double unemploymentInsurance = UnemploymentInsurance;
+            double incomeTax = 0;
+            double netSalary = 0;
+
+
+            incomeTax = (salary - 500 - unemploymentInsurance - fundedPension) * 0.2;
+            if (incomeTax < 0)
+            {
+                incomeTax = 0;
+            }
+            netSalary = salary - incomeTax - unemploymentInsurance - fundedPension;
+
+            Console.WriteLine("Funded pension:" + Math.Round(fundedPension, 2));
+            Console.WriteLine("Unemployment insurance:" + Math.Round(unemploymentInsurance, 2));
+            Console.WriteLine("Income tax:" + Math.Round(incomeTax, 2));
+            Console.WriteLine("Net salary:" + Math.Round(netSalary, 2));
+        }
+        public static void IncomeOver2100(double salary, double FundedPension, double UnemploymentInsurance)
+        {
+            double fundedPension = FundedPension;
+            double unemploymentInsurance = UnemploymentInsurance;
+            double incomeTax = 0;
+            double netSalary = 0;
+
+            incomeTax = (salary - unemploymentInsurance - fundedPension) * 0.2;
+            netSalary = salary - incomeTax - unemploymentInsurance - fundedPension;
+            Console.WriteLine("Funded pension:" + Math.Round(fundedPension, 2));
+            Console.WriteLine("Unemployment insurance:" + Math.Round(unemploymentInsurance, 2));
+            Console.WriteLine("Income tax:" + Math.Round(incomeTax, 2));
+            Console.WriteLine("Net salary:" + Math.Round(netSalary, 2));
+        }
+        public static void IncomeBetween1200And2100(double salary, double FundedPension, double UnemploymentInsurance)
+        {
+            double fundedPension = FundedPension;
+            double unemploymentInsurance = UnemploymentInsurance;
+            double taxfreeIncome = 500 - 0.555556 * (salary - 1200);
+            double incomeTax = 0;
+            double netSalary = 0;
+
+            incomeTax = (salary - unemploymentInsurance - fundedPension - taxfreeIncome) * 0.2;
+            netSalary = salary - incomeTax - unemploymentInsurance - fundedPension;
+            Console.WriteLine("Funded pension:" + Math.Round(fundedPension, 2));
+            Console.WriteLine("Unemployment insurance:" + Math.Round(unemploymentInsurance, 2));
+            Console.WriteLine("Income tax:" + Math.Round(incomeTax, 2));
+            Console.WriteLine("Net salary:" + Math.Round(netSalary, 2));
+        }
+        public static double FundedPensionCalculation(double GrossSalary, string FundedPensionAnswer)
+        {
+            double fundedPension = 0;
+            if (FundedPensionAnswer.ToLower() == "yes")
+            {
+                fundedPension = GrossSalary * 0.02;
+                return fundedPension;
+
+            }
+            return fundedPension;
+
+        }
+        public static double UnemploymentInsuranceCalculation(double GrossSalary, string UnemploymentInsuranceAnswer)
+        {
+            double unemploymentInsurance = 0;
+            if (UnemploymentInsuranceAnswer.ToLower() == "yes")
+            {
+                unemploymentInsurance = GrossSalary * 0.016;
+                return unemploymentInsurance;
+
+            }
+            return unemploymentInsurance;
+
+        }
+    }
+}
